@@ -18,8 +18,14 @@
   <strong>grade:</strong>
   <%= @review.grade %>
 </p>
+
 <h2>Comments</h2>
 <%= render @review.comments %>
+
 <h2>Add a comment:</h2>
 <%= render 'comments/form' %>
-<%= link_to 'Back', reviews_path %>
+
+<%= link_to 'Back', reviews_path %> |
+<%= link_to 'Edit', edit_review_path(@review) %> |
+<%= link_to 'Delete', review_path(@review),
+             method: :delete, data: { confirm: 'Are you sure?' } %>
