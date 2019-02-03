@@ -18,7 +18,7 @@
         <%= hoagie.label :base_id %>
         <%= hoagie.collection_select(:base_id, ::Base.all, :id, :name) %>
         <%= hoagie.label :count %>
-        <%= hoagie.text_field :count %>
+        <%= hoagie.select(:count, options_for_select(1..10)) %>
       </li>
       <%= hoagie.fields_for :ordered_additionallies do |extra| %>
         <li>
