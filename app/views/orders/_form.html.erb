@@ -1,4 +1,4 @@
-<%= form_for @order do |f| %>
+<%= form_with model: @order, url: orders_path, local: true do |f| %>
   <% if @order.errors.any? %>
     <div id="error_explanation">
       <h2>
