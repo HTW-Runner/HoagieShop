@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  http_basic_authenticate_with name: "admin247", password: "secret!", only: [:index]
+  http_basic_authenticate_with name: 'admin247', password: 'secret!', only: [:index]
   def index
     @orders = Order.all
   end
@@ -10,7 +10,8 @@ class OrdersController < ApplicationController
     else
       @order = Order.new
       @order.customer_id = session[:customer_id]
-      @order.hoagies.build
+      @hoagies = @order.hoagies.build
+      @extras = @hoagies.ordered_additionallies.build
     end
   end
 
@@ -36,7 +37,9 @@ class OrdersController < ApplicationController
   private
 
   def order_params
-    params.require(:order).permit(:customer_id, :status, :price, :hoagies_attributes => [:id, :base_id, :count])
+    params.require(:order)
+          .permit(:customer_id, :status, :price,
+                  hoagies_attributes: [:id, :base_id, :count,
+                  ordered_additionallies_attributes: [:id, :hoagie_id, :ingredient_id]])
   end
-
 end

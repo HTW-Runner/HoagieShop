@@ -1,11 +1,12 @@
 class HoagiesController < ApplicationController
-  http_basic_authenticate_with name: "admin247", password: "secret!"
+  http_basic_authenticate_with name: 'admin247', password: 'secret!'
   def index
     @hoagies = Hoagie.all
   end
 
   def new
     @hoagie = Hoagie.new
+    @extra = @hoagie.ordered_additionallies.build
   end
 
   def create
@@ -25,6 +26,8 @@ class HoagiesController < ApplicationController
   private
 
   def hoagie_params
-    params.require(:hoagie).permit(:base_id, :order_id, :count)
+    params.require(:hoagie)
+          .permit(:base_id, :order_id, :count,
+                  ordered_additionallies_attributes: [:id, :hoagie_id, :ingredient_id])
   end
 end

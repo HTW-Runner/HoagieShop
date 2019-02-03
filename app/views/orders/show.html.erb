@@ -8,7 +8,10 @@
 <p>
   <% @hoagies.each do |hoagie| %>
     <%= hoagie.count %> x
-    <%= ::Base.find(hoagie.base_id).name %><br>
+    <%= ::Base.find(hoagie.base_id).name %>
+    <% OrderedAdditionally.where(hoagie_id: hoagie.id).each do |extra| %>
+      + <%= Ingredient.find(extra.ingredient_id).name %><br>
+    <% end %>
   <% end %>
 </p>
 <%= link_to 'Back to Homepage', home_index_path %>
