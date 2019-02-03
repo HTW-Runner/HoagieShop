@@ -9,11 +9,22 @@ class ReviewsController < ApplicationController
   end
 
   def edit
-    @review = Review.find(params[:id])
+    if session[:customer_id].nil?
+      redirect_to login_path
+    else
+      @review = Review.find(params[:id])
+      if session[:customer_id].to_i != @review.customer_id.to_i
+        redirect_to review_path
+      end
+    end
   end
 
   def new
-    @review = Review.new
+    if session[:customer_id].nil?
+      redirect_to login_path
+    else
+      @review = Review.new
+    end
   end
 
   def create
@@ -37,10 +48,17 @@ class ReviewsController < ApplicationController
   end
 
   def destroy
-    @review = Review.find(params[:id])
-    @review.destroy
-
-    redirect_to reviews_path
+    if session[:customer_id].nil?
+      redirect_to login_path
+    else
+      @review = Review.find(params[:id])
+      if session[:customer_id].to_i == @review.customer_id.to_i
+        @review.destroy
+        redirect_to reviews_path
+      else
+        redirect_to review_path
+      end
+    end
   end
 
   private
