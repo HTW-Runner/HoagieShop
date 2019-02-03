@@ -2,12 +2,34 @@
 <div class="container">
   <% @reviews.each do |review| %>
     <div class="item">
-      <%= image_tag('/uploads/tmp/1549125584-12300-0001-9092/absolute.PNG', :size => "175x120") %>
+      <%= review.selfie = image_tag(get_random_image, :size => "175x120") %>
       <p>
         <strong>Customer:</strong>
         <%= Customer.find(review.customer_id).first_name %> <%= Customer.find(review.customer_id).last_name %>
       </p>
-      <p><%= link_to 'Delete', review_path(review.id), method: :delete, data: { confirm: 'Are you sure?' } %></p>
+      <p>
+        <strong>Title:</strong>
+        <%= review.title %>
+      </p>
+      <p>
+        <strong>Text:</strong>
+        <%= review.text %>
+      </p>
+      <p><%= link_to 'Delete whole Review', review_path(review.id), method: :delete, data: { confirm: 'Are you sure?' } %></p>
+      <p>
+        <strong>Comments:</strong>
+        <% Comment.where(review_id: review.id).each do |comment| %>
+          <p>
+            <strong>Commenter:</strong>
+            <%= Customer.find(comment.customer_id).first_name %> <%= Customer.find(comment.customer_id).last_name %>
+          </p>
+          <p>
+            <strong>Text:</strong>
+            <%= comment.text %>
+          </p>
+          <p><%= link_to 'Delete Comment', review_comment_path(id: comment.id, review_id: review.id), method: :delete, data: { confirm: 'Are you sure?' } %></p>
+        <% end %>
+      </p>
     </div>
   <% end %>
 </div>
