@@ -1,15 +1,25 @@
 class CommentsController < ApplicationController
   def create
-    @review = Review.find(params[:review_id])
-    @comment = @review.comments.create(comment_params)
-    redirect_to review_path(@review)
+    if session[:customer_id].nil?
+      redirect_to login_path
+    else
+      @review = Review.find(params[:review_id])
+      @comment = @review.comments.create(comment_params)
+      redirect_to review_path(@review)
+    end
   end
 
   def destroy
-    @review = Review.find(params[:review_id])
-    @comment = @review.comments.find(params[:id])
-    @comment.destroy
-    redirect_to review_path(@review)
+    if session[:customer_id].nil?
+      redirect_to login_path
+    else
+      @review = Review.find(params[:review_id])
+      @comment = @review.comments.find(params[:id])
+      if session[:customer_id].to_i == @comment.customer_id.to_i
+        @comment.destroy
+      end
+      redirect_to review_path(@review)
+    end
   end
 
   private
