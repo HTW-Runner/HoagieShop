@@ -1,10 +1,13 @@
 <h1>Review Selfies</h1>
-<% @reviews.each do |review| %>
-  <p><%= Customer.find(review.customer_id).first_name %>
-    <%= Customer.find(review.customer_id).last_name %>
-    <p><%= image_tag('/uploads/tmp/1549125584-12300-0001-9092/absolute.PNG', :size => "175x120") %></p>
-    <%= review.title %><%= review.text %><%= Comment.where(review_id: review).pluck(:text).last %></p>
-  <%= link_to 'Remove Review', review_path(review),
-               method: :delete,
-               data: { confirm: 'Are you sure?' } %>
-<% end %>
+<div class="container">
+  <% @reviews.each do |review| %>
+    <div class="item">
+      <%= image_tag('/uploads/tmp/1549125584-12300-0001-9092/absolute.PNG', :size => "175x120") %>
+      <p>
+        <strong>Customer:</strong>
+        <%= Customer.find(review.customer_id).first_name %> <%= Customer.find(review.customer_id).last_name %>
+      </p>
+      <p><%= link_to 'Delete', review_path(review.id), method: :delete, data: { confirm: 'Are you sure?' } %></p>
+    </div>
+  <% end %>
+</div>
