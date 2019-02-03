@@ -21,8 +21,19 @@ class OrdersController < ApplicationController
       @order = Order.new
       @order.customer_id = session[:customer_id]
     end
-    @order.status = 'Waiting'
     if @order.update(order_params)
+      # Calculate price
+      hoagies = Hoagie.where(order_id: @order.id)
+      price = 0
+      hoagies.each do |hoagie|
+        price += Base.find(hoagie.base_id).price
+        OrderedAdditionally.where(hoagie_id: hoagie.id).each do |extra|
+          price += Ingredient.find(extra.ingredient_id).price
+        end
+        price *= hoagie.count
+      end
+
+      @order.update(status: 'Waiting', price: price)
       redirect_to @order
     else
       render 'new'
@@ -30,8 +41,17 @@ class OrdersController < ApplicationController
   end
 
   def show
-    @order = Order.find(params[:id])
-    @hoagies = Hoagie.where(order_id: @order.id)
+    if session[:customer_id].nil?
+      redirect_to login_path
+    else
+      @order = Order.find(params[:id])
+      if session[:customer_id].to_i == @order.customer_id.to_i
+        @customer = Customer.find(@order.customer_id)
+        @hoagies = Hoagie.where(order_id: @order.id)
+      else
+        redirect_to home_index_path
+      end
+    end
   end
 
   private
