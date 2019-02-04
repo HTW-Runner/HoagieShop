@@ -1,9 +1,13 @@
 <%= form_with(model: [ @review, @review.comments.build ], local: true) do |form| %>
-  <p>
-    <%= form.label :text %> (Think about to log-in first, otherwise your comment will be lost!)<br>
-    <%= form.text_area :text %>
-  </p>
-  <p>
-    <%= form.submit %>
-  </p>
+<p>
+  <% if session[:customer_id].nil? %>
+  <%= link_to 'Login for commenting', login_path %>
+</p>
+<% else %>
+<%= form.label :text %><br>
+<%= form.text_area :text %>
+<% end %>
+<p>
+  <%= form.submit %>
+</p>
 <% end %>
