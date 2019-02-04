@@ -2,29 +2,27 @@
 <%= link_to 'Home', root_path %> |
 <%= link_to 'New Order', new_order_path %> |
 <%= link_to 'New Review', new_review_path %>
-
-<table>
-  <tr>
-    <th>Customer</th>
-    <th>Image</th>
-    <th>Grade</th>
-    <th>Title</th>
-    <th>Review Text</th>
-    <th>Latest Comment</th>
-    <th>More Comments</th>
-    <th>No. in Total</th>
-  </tr>
-
+<div class="container">
   <% @reviews.each do |review| %>
-    <tr>
-      <td><%= Customer.find(review.customer_id).first_name %> <%= Customer.find(review.customer_id).last_name %></td>
-      <td class="selfie"><%= review.selfie = image_tag(get_random_image, :size => "175x120") %></td>
-      <td><%= review.grade %></td>
-      <td><%= review.title %></td>
-      <td><%= review.text %></td>
-      <td><%= Comment.where(review_id: review).pluck(:text).last %></td>
-      <td><%= link_to 'See Comments', review_path(review) %></td>
-      <td><%= Comment.where(review_id: review).count.to_i %></td>
-    </tr>
+    <div class="item">
+      <div class="slefie"><%= review.selfie = image_tag(get_random_image, :size => "175x120") %></div>
+      <p>
+        <strong>
+          <%= Customer.find(review.customer_id).first_name %> <%= Customer.find(review.customer_id).last_name %>
+        </strong>
+      </p>
+      <p>
+        <strong>Grade:</strong> <%= review.grade %></p>
+      <p>
+        <strong>Title:</strong> <%= review.title %></p>
+      <p>
+        <strong>Text:</strong> <%= review.text %></p>
+      <p>
+        <strong>Comment:</strong> <%= Comment.where(review_id: review).pluck(:text).last %>
+      </p>
+      <p>
+        <%= link_to 'See Comments', review_path(review) %> (<%= Comment.where(review_id: review).count.to_i %>)
+      </p>
+    </div>
   <% end %>
-</table>
+</div>

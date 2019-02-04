@@ -17,11 +17,13 @@
 <p>
   <strong>by <%= @customer.first_name %> <%= @customer.last_name %></strong>
 </p>
-<h2>Comments</h2>
-<%= render @review.comments %>
-<h2>Add a comment:</h2>
-<%= render 'comments/form' %>
-<%= link_to 'Back', reviews_path %> |
-<%= link_to 'Edit', edit_review_path(@review) %> |
-<%= link_to 'Delete', review_path(@review),
+<div>
+  <h2 class="add_comment">Comments</h2>
+  <%= render @review.comments %>
+  <h2 class="add_comment">Add a comment:</h2>
+  <%= render 'comments/form' %>
+  <%= link_to 'Back', reviews_path %> |
+  <%= link_to 'Edit', edit_review_path(@review) %> |
+  <%= link_to 'Delete', review_path(@review),
              method: :delete, data: { confirm: 'Are you sure?' } %>
+</div>
