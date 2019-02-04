@@ -5,6 +5,7 @@ class CommentsController < ApplicationController
     else
       @review = Review.find(params[:review_id])
       @comment = @review.comments.create(comment_params)
+      @comment.update(customer_id: session[:customer_id])
       redirect_to review_path(@review)
     end
   end
