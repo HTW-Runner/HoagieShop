@@ -1,14 +1,11 @@
 <p>
-  <strong>customer_id:</strong>
-  <%= comment.customer_id %>
-</p>
-<p>
-  <strong>Comment:</strong>
+  <strong>
+    <%= Customer.find(comment.customer_id).first_name %> <%= Customer.find(comment.customer_id).last_name %>:
+  </strong>
   <%= comment.text %>
-</p>
-
-<p>
-  <%= link_to 'Delete', [comment.review, comment],
+  <% if session[:customer_id].to_i == comment.customer_id.to_i %>
+    <%= link_to 'Delete', [comment.review, comment],
                method: :delete,
                data: { confirm: 'Are you sure?' } %>
+  <% end %>
 </p>

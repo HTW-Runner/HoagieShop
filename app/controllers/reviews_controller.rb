@@ -1,11 +1,11 @@
 class ReviewsController < ApplicationController
-
   def index
     @reviews = Review.all
   end
 
   def show
     @review = Review.find(params[:id])
+    @customer = Customer.find(@review.customer_id)
   end
 
   def edit
@@ -29,7 +29,6 @@ class ReviewsController < ApplicationController
 
   def create
     @review = Review.new(review_params)
-
     if @review.save
       redirect_to @review
     else
@@ -62,8 +61,8 @@ class ReviewsController < ApplicationController
   end
 
   private
+
   def review_params
     params.require(:review).permit(:customer_id, :title, :text, :grade, :selfie)
   end
-
 end

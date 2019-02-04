@@ -3,28 +3,24 @@
   <%= @review.selfie.url %>
 </p>
 <p>
-  <strong>Title:</strong>
-  <%= @review.title %>
+  <strong>Grade:</strong>
+  <%= @review.grade %>
 </p>
 <p>
-  <strong>customer_id:</strong>
-  <%= @review.customer_id %>
+  <strong>Title:</strong>
+  <%= @review.title %>
 </p>
 <p>
   <strong>Text:</strong>
   <%= @review.text %>
 </p>
 <p>
-  <strong>grade:</strong>
-  <%= @review.grade %>
+  <strong>by <%= @customer.first_name %> <%= @customer.last_name %></strong>
 </p>
-
 <h2>Comments</h2>
 <%= render @review.comments %>
-
 <h2>Add a comment:</h2>
 <%= render 'comments/form' %>
-
 <%= link_to 'Back', reviews_path %> |
 <%= link_to 'Edit', edit_review_path(@review) %> |
 <%= link_to 'Delete', review_path(@review),
