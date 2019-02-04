@@ -1,9 +1,5 @@
 <%= form_with(model: [ @review, @review.comments.build ], local: true) do |form| %>
   <p>
-    <%= form.label :customer_id %><br>
-    <%= form.text_field :customer_id %>
-  </p>
-  <p>
     <%= form.label :text %> (Think about to log-in first, otherwise your comment will be lost!)<br>
     <%= form.text_area :text %>
   </p>

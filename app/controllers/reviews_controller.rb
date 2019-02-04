@@ -23,12 +23,13 @@ class ReviewsController < ApplicationController
     if session[:customer_id].nil?
       redirect_to login_path
     else
-      @review = Review.new
+      @review = Review.new      
     end
   end
 
   def create
     @review = Review.new(review_params)
+    @review.update(customer_id: session[:customer_id])
     if @review.save
       redirect_to @review
     else
